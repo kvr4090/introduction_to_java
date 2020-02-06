@@ -24,8 +24,12 @@ public class Calendar {
     }
 
     private class RestDay {
+        Date date;
+        String info;
 
         public RestDay(Date date, String info) {
+            this.date = date;
+            this.info = info;
         }
     }
 }

@@ -153,7 +153,6 @@ public class Library {
 
             for (User current : users) {
                 String appendUser = current.getEmail() + "|" + new CaesarCipher().encrypt(current.getPassword());
-
                 appendUsingBufferedWriter(filePath, appendUser);
             }
         }
@@ -235,13 +234,11 @@ public class Library {
             if (name.equals("")) {
                 System.out.println("Пустая строка!");
                 initializationUser();
-
             } else {
                 User current = new User(name, users);
                 users.add(current);
                 currentUser = current;
             }
-
         } else {
             initializationUser();
         }

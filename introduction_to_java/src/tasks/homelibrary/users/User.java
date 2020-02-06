@@ -77,7 +77,6 @@ public class User {
                     if (emailUser.equals(current.getEmail())) {
                         System.out.println("Введённый адрес электронной почты уже занят.");
                         setWithUserEmail(listUsers);
-
                         break;
                     } else {
                         email = emailUser;
@@ -131,9 +130,8 @@ public class User {
 
             if (temp == ((list.size() / 30) - 1)) {
                 System.out.println("Конец каталога книг.");
-
             } else {
-                if (reader.readLine().equals("")){
+                if (reader.readLine().equals("")) {
                     temp++;
                     toScreenOnePage(temp, list);
                 }

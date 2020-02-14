@@ -8,24 +8,12 @@ package algorithmization.task35;
 public class Solution {
 
     public int greatestCommonDivisor(int a, int b) {
-        int n = 1;
-
-        if (a > b) {
-            for (int i = b; i > 1 ; i--) {
-                if ((a % i == 0) && (b % i == 0)) {
-                    n = i;
-                    break;
-                }
-            }
-        } else {
-            for (int i = a; i > 1 ; i--) {
-                if ((a % i == 0) && (b % i == 0)) {
-                    n = i;
-                    break;
-                }
-            }
+        while (b != 0) {
+            int tmp = a % b;
+            a = b;
+            b = tmp;
         }
-        return n;
+        return a;
     }
 
     public int lowestCommonMultiple(int a, int b) {

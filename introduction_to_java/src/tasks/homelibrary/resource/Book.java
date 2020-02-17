@@ -64,103 +64,113 @@ public class Book {
 
     private void setAuthor() throws IOException {
         System.out.println("Введите автора книги:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Пустая строка!");
-            setAuthor();
-        } else {
-            Pattern pattern = Pattern.compile("[A-zА-я\\s]");
-            Matcher matcher = pattern.matcher(temp);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-            if (matcher.find()) {
-                author = temp;
-            } else {
-                System.out.println("Неправльное имя!");
+            if (temp.equals("")) {
+                System.out.println("Пустая строка!");
                 setAuthor();
+            } else {
+                Pattern pattern = Pattern.compile("[A-zА-я\\s]");
+                Matcher matcher = pattern.matcher(temp);
+
+                if (matcher.find()) {
+                    author = temp;
+                } else {
+                    System.out.println("Неправльное имя!");
+                    setAuthor();
+                }
             }
         }
     }
 
     private void setTitle() throws IOException {
         System.out.println("Введите название книги:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Пустая строка!");
-            setTitle();
-        } else {
-            Pattern pattern = Pattern.compile("[А-яA-z0-9\\s.,!:]");
-            Matcher matcher = pattern.matcher(temp);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-            if (matcher.find()) {
-                title = temp;
-            } else {
-                System.out.println("Неправильное название!");
+            if (temp.equals("")) {
+                System.out.println("Пустая строка!");
                 setTitle();
+            } else {
+                Pattern pattern = Pattern.compile("[А-яA-z0-9\\s.,!:]");
+                Matcher matcher = pattern.matcher(temp);
+
+                if (matcher.find()) {
+                    title = temp;
+                } else {
+                    System.out.println("Неправильное название!");
+                    setTitle();
+                }
             }
         }
     }
 
     private void setCountPages() throws IOException {
         System.out.println("Введите количество страниц в книге:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Пустая строка!");
-            setCountPages();
-        } else {
-            Pattern pattern = Pattern.compile("[^0-9]");
-            Matcher matcher = pattern.matcher(temp);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-            if (!matcher.find()) {
-                int i = Integer.parseInt(temp);
-
-                if (i > 0) {
-                    countPages = i;
-                }
-            } else {
-                System.out.println("Неправильное число!");
+            if (temp.equals("")) {
+                System.out.println("Пустая строка!");
                 setCountPages();
+            } else {
+                Pattern pattern = Pattern.compile("[^0-9]");
+                Matcher matcher = pattern.matcher(temp);
+
+                if (!matcher.find()) {
+                    int i = Integer.parseInt(temp);
+
+                    if (i > 0) {
+                        countPages = i;
+                    }
+                } else {
+                    System.out.println("Неправильное число!");
+                    setCountPages();
+                }
             }
         }
     }
 
     private void setPaper() throws IOException {
         System.out.println("Введите формат книги (бумажная/электронная)");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Пустая строка!");
-            setPaper();
-        } else {
-            if (temp.equals("электронная")) {
-                isPaper = false;
-
-            } else if (temp.equals("бумажная")) {
-                isPaper = true;
-
-            } else {
-                System.out.println("Неправильный формат!");
+            if (temp.equals("")) {
+                System.out.println("Пустая строка!");
                 setPaper();
-            }
+            } else {
+                if (temp.equals("электронная")) {
+                    isPaper = false;
+
+                } else if (temp.equals("бумажная")) {
+                    isPaper = true;
+
+                } else {
+                    System.out.println("Неправильный формат!");
+                    setPaper();
+                }
+            }   
         }
     }
 
     private void setDirectory() throws IOException {
         System.out.println("Укажите директорию/место хранения книги:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Пустая строка!");
-            setDirectory();
-        } else {
-            directory = temp;
+            if (temp.equals("")) {
+                System.out.println("Пустая строка!");
+                setDirectory();
+            } else {
+                directory = temp;
+            }   
         }
     }
 

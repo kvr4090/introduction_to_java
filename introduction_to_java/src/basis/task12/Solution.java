@@ -20,7 +20,7 @@ public class Solution {
     private void calculateSum() throws IOException {
         System.out.println("Введите любое целое положительное число.");
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             int a = Integer.parseInt(reader.readLine());
 
             if (a < 1) {

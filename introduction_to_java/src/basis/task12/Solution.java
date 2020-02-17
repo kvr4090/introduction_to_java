@@ -21,6 +21,7 @@ public class Solution {
         System.out.println("Введите любое целое положительное число.");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int a = Integer.parseInt(reader.readLine());
+        reader.close();
 
         if (a < 1) {
             System.out.println("Введено число не соответствующее условию.");

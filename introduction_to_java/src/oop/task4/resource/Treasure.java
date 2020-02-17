@@ -47,6 +47,7 @@ public class Treasure {
 
     private int addTreasurePrice() throws IOException {
         System.out.print("Введите стоимость сокровища: ");
+        
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String temp = reader.readLine();
 

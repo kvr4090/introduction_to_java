@@ -18,45 +18,50 @@ public class Server {
     }
 
     private void setArchivePath() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите директорию в которой находятся дела студентов:");
-        String filePath = reader.readLine();
 
-        if (filePath.equals("")) {
-            System.out.println("Пустая строка!");
-            setArchivePath();
-        } else {
-            archivePath = filePath;
-        }
-        reader.close();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String filePath = reader.readLine();
+
+            if (filePath.equals("")) {
+                System.out.println("Пустая строка!");
+                setArchivePath();
+            } else {
+                archivePath = filePath;
+            }
+        } 
     }
 
     private void setPassword() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Установите числовой пароль из 11 знаков:");
-        String pass = reader.readLine();
-        Pattern pattern = Pattern.compile("[0-9]{11}");
-        Matcher matcher = pattern.matcher(pass);
 
-        if (matcher.find()) {
-            password = pass;
-        } else {
-            System.out.println("Введите пароль соответствующий требованиям!");
-            setPassword();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String pass = reader.readLine();
+            Pattern pattern = Pattern.compile("[0-9]{11}");
+            Matcher matcher = pattern.matcher(pass);
+
+            if (matcher.find()) {
+                password = pass;
+            } else {
+                System.out.println("Введите пароль соответствующий требованиям!");
+                setPassword();
+            }
         }
-        reader.close();
     }
 
     private void loadFileStudentFromFile(String studentNumber) throws IOException {
         String filePath = archivePath + studentNumber +".xml";
-        BufferedReader fileReader = new BufferedReader(new FileReader(new File(filePath)));
-        String line = fileReader.readLine();
 
-        while (line != null) {
-            createFileStudentFromFile(line);
-            line = fileReader.readLine();
+        try (FileReader fileRdr = new FileReader(new File(filePath));
+             BufferedReader fileReader = new BufferedReader(fileRdr)) {
+            
+            String line = fileReader.readLine();
+
+            while (line != null) {
+                createFileStudentFromFile(line);
+                line = fileReader.readLine();
+            }
         }
-        fileReader.close();
     }
 
     private void saveFileStudentToArchive() {

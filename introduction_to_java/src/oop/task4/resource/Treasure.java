@@ -25,6 +25,7 @@ public class Treasure {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите наименование сокровища: ");
         String  name = reader.readLine();
+        reader.close();
 
         if (name.equals("")) {
             System.out.println("Введена пустая строка!");
@@ -47,6 +48,7 @@ public class Treasure {
         System.out.print("Введите стоимость сокровища: ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String temp = reader.readLine();
+        reader.close();
 
         if (temp.equals("")) {
             System.out.println("Введена пустая строка!");

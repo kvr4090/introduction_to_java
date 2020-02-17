@@ -19,19 +19,19 @@ public class Solution {
 
     private void calculateSum() throws IOException {
         System.out.println("Введите любое целое положительное число.");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int a = Integer.parseInt(reader.readLine());
-        reader.close();
 
-        if (a < 1) {
-            System.out.println("Введено число не соответствующее условию.");
-            calculateSum();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));) {
+            int a = Integer.parseInt(reader.readLine());
 
-        } else {
-            result = 0;
+            if (a < 1) {
+                System.out.println("Введено число не соответствующее условию.");
+                calculateSum();
+            } else {
+                result = 0;
 
-            for (int i = 1; i < a; i++) {
-                result += i;
+                for (int i = 1; i < a; i++) {
+                    result += i;
+                }
             }
         }
     }

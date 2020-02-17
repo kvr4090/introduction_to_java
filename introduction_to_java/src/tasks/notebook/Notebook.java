@@ -31,12 +31,15 @@ public class Notebook {
 
     private void menu() throws IOException {
         sortedNotes = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String choice;
         System.out.println("\nДля поиска заметок по параметру, введите 1\n" +
                 "Для поиска записи, текстовое поле которой содержит заданное слово, введите 2\n" +
                 "Для добавления заметки, введите 3\n" +
                 "Для выхода введите 4.\n");
-        String choice = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            choice = reader.readLine();
+        }
 
         Pattern pattern = Pattern.compile("^([1-4])$");
         Matcher matcher = pattern.matcher(choice);
@@ -78,26 +81,28 @@ public class Notebook {
 
     private void loadNotebookFromFile() throws IOException {
         notes = new ArrayList<>();
-
         System.out.println("Введите директорию файла с заметками:");
-        BufferedReader readerBooks = new BufferedReader(new InputStreamReader(System.in));
-        String filePath = readerBooks.readLine();
 
-        if (filePath.equals("")) {
-            System.out.println("Пустая строка!");
-            loadNotebookFromFile();
-        } else {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
-                String line = reader.readLine();
+        try (BufferedReader readerBooks = new BufferedReader(new InputStreamReader(System.in))) {
+            String filePath = readerBooks.readLine();
 
-                while (line != null) {
-                    notes.add(createNote(line));
-                    line = reader.readLine();
-                }
-            } catch (FileNotFoundException e) {
-                System.out.println("Указанный файл не найден!");
+            if (filePath.equals("")) {
+                System.out.println("Пустая строка!");
                 loadNotebookFromFile();
+            } else {
+                try (FileReader fileReader = new FileReader(new File(filePath));
+                     BufferedReader reader = new BufferedReader(fileReader)) {
+
+                    String line = reader.readLine();
+
+                    while (line != null) {
+                        notes.add(createNote(line));
+                        line = reader.readLine();
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("Указанный файл не найден!");
+                    loadNotebookFromFile();
+                }
             }
         }
     }
@@ -125,24 +130,26 @@ public class Notebook {
     }
 
     private void saveNotebookToFile() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите директорию файла для сохранения заметок:");
-        String filePath = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String filePath = reader.readLine();
 
-        if (filePath.equals("")) {
-            System.out.println("Пустая строка!");
-            saveNotebookToFile();
-        } else {
-            writeUsingBufferedWriter(filePath);
+            if (filePath.equals("")) {
+                System.out.println("Пустая строка!");
+                saveNotebookToFile();
+            } else {
+                writeUsingBufferedWriter(filePath);
 
-            for (Note current : notes) {
-                String appendNote = current.getTopic() + "|" + current.getMessage() + "|" + current.getEmail() +
-                        "|" + current.getCalendar().get(Calendar.YEAR) + "|" + current.getCalendar().get(Calendar.MONTH) +
-                        "|" + current.getCalendar().get(Calendar.DAY_OF_MONTH) + "|" + current.getCalendar().get(Calendar.HOUR_OF_DAY) +
-                        "|" + current.getCalendar().get(Calendar.MINUTE) + "|" +current.getCalendar().get(Calendar.SECOND);
+                for (Note current : notes) {
+                    String appendNote = current.getTopic() + "|" + current.getMessage() + "|" + current.getEmail() +
+                            "|" + current.getCalendar().get(Calendar.YEAR) + "|" + current.getCalendar().get(Calendar.MONTH) +
+                            "|" + current.getCalendar().get(Calendar.DAY_OF_MONTH) + "|" + current.getCalendar().get(Calendar.HOUR_OF_DAY) +
+                            "|" + current.getCalendar().get(Calendar.MINUTE) + "|" +current.getCalendar().get(Calendar.SECOND);
 
-                appendUsingBufferedWriter(filePath, appendNote);
-            }
+                    appendUsingBufferedWriter(filePath, appendNote);
+                }
+            }   
         }
     }
 
@@ -192,14 +199,17 @@ public class Notebook {
     }
 
     private void searchNoteByParameter() throws IOException {
+        String choice;
         System.out.println("\nВыбор параметров:\n" +
                 "Для поиска по теме, введите 1\n" +
                 "Для поиска по email, введите 2\n" +
                 "Для поиска по дате, введите 3\n" +
                 "При выборе нескольких параметров, цифры вводите без пробелов и знаков препинания\n" +
                 "(1 или 2 или 3 или 123 или 12 или 13 или 23)\n");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String choice = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            choice = reader.readLine();
+        }
 
         Pattern pattern = Pattern.compile("[0-9]");
         Matcher matcher = pattern.matcher(choice);
@@ -356,9 +366,13 @@ public class Notebook {
     }
 
     private boolean searchTextInNote(String string) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String word;
         System.out.println("Введите слово для поиска:");
-        String word = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            word = reader.readLine();
+        }
+       
         String [] list = splitTextToSentence(string);
 
         for (String current : list) {
@@ -383,9 +397,13 @@ public class Notebook {
     }
 
     private int setDateYear() throws IOException {
+        String year;
         System.out.println("Введите год заметки:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String year = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            year = reader.readLine();
+        }
+        
         Pattern pattern = Pattern.compile("[0-9]{4}");
         Matcher matcher = pattern.matcher(year);
 
@@ -399,9 +417,13 @@ public class Notebook {
     }
 
     private int setDateMonth() throws IOException {
+        String month;
         System.out.println("Введите месяц заметки(1-12):");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String month = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            month = reader.readLine();
+        }
+        
         Pattern pattern = Pattern.compile("^(0?[1-9]|1[0-2])$");
         Matcher matcher = pattern.matcher(month);
 
@@ -415,9 +437,13 @@ public class Notebook {
     }
 
     private int setDateDay() throws IOException {
+        String month;
         System.out.println("Введите  число дня заметки(1-31):");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String month = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            month = reader.readLine();
+        }
+        
         Pattern pattern = Pattern.compile("^([1-9]|[1-2][0-9]|3[0-1])$");
         Matcher matcher = pattern.matcher(month);
 

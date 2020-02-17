@@ -37,17 +37,19 @@ public class Note {
 
     public void setTopic() throws IOException {
         System.out.println("Введите тему заметки:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String topic = reader.readLine();
 
-        Pattern pattern = Pattern.compile("[A-zА-я0-9\\s]");
-        Matcher matcher = pattern.matcher(topic);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String topic = reader.readLine();
 
-        if (matcher.find()) {
-            this.topic = topic;
-        } else {
-            System.out.println("Некорректный ввод!");
-            setTopic();
+            Pattern pattern = Pattern.compile("[A-zА-я0-9\\s]");
+            Matcher matcher = pattern.matcher(topic);
+
+            if (matcher.find()) {
+                this.topic = topic;
+            } else {
+                System.out.println("Некорректный ввод!");
+                setTopic();
+            }
         }
     }
 
@@ -57,17 +59,18 @@ public class Note {
 
     public void setMessage() throws IOException {
         System.out.println("Введите текст заметки:");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String message = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String message = reader.readLine();
 
-        Pattern pattern = Pattern.compile(".+");
-        Matcher matcher = pattern.matcher(message);
+            Pattern pattern = Pattern.compile(".+");
+            Matcher matcher = pattern.matcher(message);
 
-        if (matcher.find()) {
-            this.message = message;
-        } else {
-            System.out.println("Некорректный ввод!");
-            setMessage();
+            if (matcher.find()) {
+                this.message = message;
+            } else {
+                System.out.println("Некорректный ввод!");
+                setMessage();
+            }   
         }
     }
 
@@ -77,17 +80,18 @@ public class Note {
 
     public void setEmail() throws IOException {
         System.out.println("Введите адрес электронной почты: ");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String email = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String email = reader.readLine();
 
-        Pattern pattern = Pattern.compile("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,6}$");
-        Matcher matcher = pattern.matcher(email);
+            Pattern pattern = Pattern.compile("^[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,6}$");
+            Matcher matcher = pattern.matcher(email);
 
-        if (matcher.find()) {
-            this.email = email;
-        } else {
-            System.out.println("Несуществующий адрес электронной почты.");
-            setEmail();
+            if (matcher.find()) {
+                this.email = email;
+            } else {
+                System.out.println("Несуществующий адрес электронной почты.");
+                setEmail();
+            }
         }
     }
 

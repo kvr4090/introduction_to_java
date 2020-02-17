@@ -30,104 +30,106 @@ public class TreasureCave {
         DragonCave dragonCave;
         System.out.println("Заполните пещеру сокровищами. Для заполнения вручную введите 1\n" +
                 "Для загрузки готовой пещеры из файла, введите 2 и введите директорию файла.");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String choice = reader.readLine();
 
-        if (choice.equals("")) {
-            System.out.println("Введена пустая строка!");
-            run();
-        } else {
-            Pattern patternCost = Pattern.compile("[1-2]");
-            Matcher matcher = patternCost.matcher(choice);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String choice = reader.readLine();
 
-            if (matcher.find()) {
-                int temp = Integer.parseInt(choice);
-
-                if (temp == 1) {
-                    dragonCave = new DragonCave();
-                    setGameList(dragonCave.getTreasures());
-                    valueMenu(dragonCave);
-                }
-
-                if (temp == 2) {
-                    dragonCave = new DragonCave(reader.readLine());
-                    setGameList(dragonCave.getTreasures());
-                    valueMenu(dragonCave);
-                }
-            } else {
-                System.out.println("Вводите что-то не то.");
+            if (choice.equals("")) {
+                System.out.println("Введена пустая строка!");
                 run();
+            } else {
+                Pattern patternCost = Pattern.compile("[1-2]");
+                Matcher matcher = patternCost.matcher(choice);
+
+                if (matcher.find()) {
+                    int temp = Integer.parseInt(choice);
+
+                    if (temp == 1) {
+                        dragonCave = new DragonCave();
+                        setGameList(dragonCave.getTreasures());
+                        valueMenu(dragonCave);
+                    }
+
+                    if (temp == 2) {
+                        dragonCave = new DragonCave(reader.readLine());
+                        setGameList(dragonCave.getTreasures());
+                        valueMenu(dragonCave);
+                    }
+                } else {
+                    System.out.println("Вводите что-то не то.");
+                    run();
+                }
             }
         }
-        reader.close();
     }
 
     private void valueMenu(DragonCave dragonCave) throws IOException {
         int value = 0;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nДля просмотра сокровищ введите 1\n" +
-                "Для получения самого дорогого по стоимости сокровища введите 2\n" +
-                "Для выбора сокровищ на заданную сумму, введите 3 и введите сумму.\n" +
-                "Для сохранения списка сокровищ введите 4, и введите директорию файла для сохранения.\n" +
-                "Для выхода нажмите 5.");
-        String temp = reader.readLine();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("\nДля просмотра сокровищ введите 1\n" +
+                    "Для получения самого дорогого по стоимости сокровища введите 2\n" +
+                    "Для выбора сокровищ на заданную сумму, введите 3 и введите сумму.\n" +
+                    "Для сохранения списка сокровищ введите 4, и введите директорию файла для сохранения.\n" +
+                    "Для выхода нажмите 5.");
+            String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Введена пустая строка!");
-            valueMenu(dragonCave);
-        } else {
-            Pattern patternCost = Pattern.compile("[1-5]");
-            Matcher matcher = patternCost.matcher(temp);
-
-            if (matcher.find()) {
-                value = Integer.parseInt(temp);
-            } else {
-                System.out.println("Вводите что-то не то.");
-                valueMenu(dragonCave);
-            }
-        }
-
-        if (value == 1) {
-            dragonCave.browseAllTreasures();
-            valueMenu(dragonCave);
-        }
-
-        if (value == 2) {
-            dragonCave.getMostExpensiveTreasure();
-            valueMenu(dragonCave);
-        }
-
-        if (value == 3) {
-            String sum = reader.readLine();
-
-            if (sum.equals("")) {
+            if (temp.equals("")) {
                 System.out.println("Введена пустая строка!");
+                valueMenu(dragonCave);
             } else {
-                Pattern patternSum = Pattern.compile("[0-9]");
-                Matcher matcher = patternSum.matcher(sum);
+                Pattern patternCost = Pattern.compile("[1-5]");
+                Matcher matcher = patternCost.matcher(temp);
 
                 if (matcher.find()) {
-                    if (Integer.parseInt(sum) > sumTreasures()) {
-                        System.out.println("Слишком большая сумма.");
-                    } else {
-                        selectTreasuresToSum(Integer.parseInt(sum));
-                    }
+                    value = Integer.parseInt(temp);
                 } else {
-                    System.out.println("Сумма содержит недопустимые символы!");
+                    System.out.println("Вводите что-то не то.");
+                    valueMenu(dragonCave);
                 }
             }
-            valueMenu(dragonCave);
-        }
 
-        if (value == 4) {
-            dragonCave.saveDragonCaveToFile(reader.readLine());
-            valueMenu(dragonCave);
-        }
+            if (value == 1) {
+                dragonCave.browseAllTreasures();
+                valueMenu(dragonCave);
+            }
 
-        if (value == 5) {
-            System.out.println("До свидания!");
+            if (value == 2) {
+                dragonCave.getMostExpensiveTreasure();
+                valueMenu(dragonCave);
+            }
+
+            if (value == 3) {
+                String sum = reader.readLine();
+
+                if (sum.equals("")) {
+                    System.out.println("Введена пустая строка!");
+                } else {
+                    Pattern patternSum = Pattern.compile("[0-9]");
+                    Matcher matcher = patternSum.matcher(sum);
+
+                    if (matcher.find()) {
+                        if (Integer.parseInt(sum) > sumTreasures()) {
+                            System.out.println("Слишком большая сумма.");
+                        } else {
+                            selectTreasuresToSum(Integer.parseInt(sum));
+                        }
+                    } else {
+                        System.out.println("Сумма содержит недопустимые символы!");
+                    }
+                }
+                valueMenu(dragonCave);
+            }
+
+            if (value == 4) {
+                dragonCave.saveDragonCaveToFile(reader.readLine());
+                valueMenu(dragonCave);
+            }
+
+            if (value == 5) {
+                System.out.println("До свидания!");
+            }
         }
-        reader.close();
     }
 
     private int sumTreasures() {
@@ -147,53 +149,52 @@ public class TreasureCave {
         int currentSum = 0;
         int temp;
         playerList = new ArrayList<>();
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            while (selectedSum > currentSum) {
+                System.out.print("Введите номер сокровища от 1 до 100: ");
+                String numberTreasure = reader.readLine();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                if (numberTreasure.equals("")) {
+                    System.out.println("Введена пустая строка!");
+                } else {
+                    Pattern patternCost = Pattern.compile("[0-9]");
+                    Matcher matcher = patternCost.matcher(numberTreasure);
 
-        while (selectedSum > currentSum) {
-            System.out.print("Введите номер сокровища от 1 до 100: ");
-            String numberTreasure = reader.readLine();
+                    if (matcher.find()) {
+                        temp = Integer.parseInt(numberTreasure);
 
-            if (numberTreasure.equals("")) {
-                System.out.println("Введена пустая строка!");
-            } else {
-                Pattern patternCost = Pattern.compile("[0-9]");
-                Matcher matcher = patternCost.matcher(numberTreasure);
-
-                if (matcher.find()) {
-                    temp = Integer.parseInt(numberTreasure);
-
-                    if ((temp > 0) && (temp <= 100)) {
-                        if (isContains(temp)) {
-                            System.out.println("Вы уже выбирали это сокровище!");
-                        } else {
-                            if ((currentSum + gameList.get(temp - 1).getCost()) > selectedSum) {
-                                System.out.println("Будет превышена заданная сумма сокровищ. Выберите другое сокровище. " +
-                                        "Остаток: " + (selectedSum-currentSum));
+                        if ((temp > 0) && (temp <= 100)) {
+                            if (isContains(temp)) {
+                                System.out.println("Вы уже выбирали это сокровище!");
                             } else {
-                                playerList.add(temp);
-                                currentSum += gameList.get(temp - 1).getCost();
-                            }
-
-                            if (selectedSum == currentSum) {
-                                System.out.println("Вы набрали сокровищ на заданную сумму.");
-
-                                for (int number : playerList) {
-                                    System.out.print(gameList.get(number).getName() + ", " + gameList.get(number).getCost() + " ");
+                                if ((currentSum + gameList.get(temp - 1).getCost()) > selectedSum) {
+                                    System.out.println("Будет превышена заданная сумма сокровищ. Выберите другое сокровище. " +
+                                            "Остаток: " + (selectedSum-currentSum));
+                                } else {
+                                    playerList.add(temp);
+                                    currentSum += gameList.get(temp - 1).getCost();
                                 }
-                                System.out.println();
-                                break;
+
+                                if (selectedSum == currentSum) {
+                                    System.out.println("Вы набрали сокровищ на заданную сумму.");
+
+                                    for (int number : playerList) {
+                                        System.out.print(gameList.get(number).getName() + ", " + gameList.get(number).getCost() + " ");
+                                    }
+                                    System.out.println();
+                                    break;
+                                }
                             }
+                        } else {
+                            System.out.println("Номер вне диапазона!");
                         }
                     } else {
-                        System.out.println("Номер вне диапазона!");
+                        System.out.println("Введены недопустимые символы!");
                     }
-                } else {
-                    System.out.println("Введены недопустимые символы!");
                 }
             }
         }
-        reader.close();
     }
 
     private boolean isContains(int i) {
@@ -208,4 +209,3 @@ public class TreasureCave {
         return result;
     }
 }
-

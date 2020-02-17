@@ -35,10 +35,10 @@ public class DragonCave {
         ArrayList<Treasure> listTreasure = new ArrayList<>();
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listCost = new ArrayList<>();
-        FileReader fileReader = new FileReader(directory);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        try {
+        try (FileReader fileReader = new FileReader(directory);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            
             while ((temp = bufferedReader.readLine()) != null) {
                 char[] symbol = temp.toCharArray();
 
@@ -58,39 +58,25 @@ public class DragonCave {
                     }
                 }
                 listCost.add(Integer.parseInt(treasureCost));
-
-                for (int i = 0; i < 100; i++) {
-                    listTreasure.add(new Treasure(listName.get(i) , listCost.get(i)));
-                }
-                return listTreasure;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Не удается найти указанный файл");
-        } finally {
-            bufferedReader.close();
-            fileReader.close();
+        }
+
+        for (int i = 0; i < 100; i++) {
+            listTreasure.add(new Treasure(listName.get(i), listCost.get(i)));
         }
         return listTreasure;
     }
 
     public void saveDragonCaveToFile(String directory) throws IOException  {
         String text = "";
-        FileWriter fileWriter = new FileWriter(directory);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        
-        try {
+
+        try (FileWriter fileWriter = new FileWriter(directory);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+
             for (Treasure current : treasures) {
                 text = text.concat(current.getName() + (int)current.getCost());
             }
             bufferedWriter.write(text);
-            bufferedWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл на найден!");
-        } catch (IOException a) {
-            System.out.println("Что-то ввели не так!");
-        } finally {
-            fileWriter.close();
-            bufferedWriter.close();
         }
     }
 

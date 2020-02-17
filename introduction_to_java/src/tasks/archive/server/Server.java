@@ -10,16 +10,15 @@ public class Server {
     private String archivePath;
     private FileStudent fileStudent;
     private String password;
-    private BufferedReader reader;
-
+    
     public void run() throws IOException {
-        reader = new BufferedReader(new InputStreamReader(System.in));
         setArchivePath();
         setPassword();
         serverWork();
     }
 
     private void setArchivePath() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите директорию в которой находятся дела студентов:");
         String filePath = reader.readLine();
 
@@ -29,9 +28,11 @@ public class Server {
         } else {
             archivePath = filePath;
         }
+        reader.close();
     }
 
     private void setPassword() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Установите числовой пароль из 11 знаков:");
         String pass = reader.readLine();
         Pattern pattern = Pattern.compile("[0-9]{11}");
@@ -43,6 +44,7 @@ public class Server {
             System.out.println("Введите пароль соответствующий требованиям!");
             setPassword();
         }
+        reader.close();
     }
 
     private void loadFileStudentFromFile(String studentNumber) throws IOException {
@@ -54,6 +56,7 @@ public class Server {
             createFileStudentFromFile(line);
             line = fileReader.readLine();
         }
+        fileReader.close();
     }
 
     private void saveFileStudentToArchive() {

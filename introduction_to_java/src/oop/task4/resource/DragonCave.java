@@ -35,9 +35,10 @@ public class DragonCave {
         ArrayList<Treasure> listTreasure = new ArrayList<>();
         ArrayList<String> listName = new ArrayList<>();
         ArrayList<Integer> listCost = new ArrayList<>();
+        FileReader fileReader = new FileReader(directory);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(directory));
             while ((temp = bufferedReader.readLine()) != null) {
                 char[] symbol = temp.toCharArray();
 
@@ -65,16 +66,19 @@ public class DragonCave {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Не удается найти указанный файл");
+        } finally {
+            bufferedReader.close();
+            fileReader.close();
         }
         return listTreasure;
     }
 
-    public void saveDragonCaveToFile(String directory)  {
+    public void saveDragonCaveToFile(String directory) throws IOException  {
         String text = "";
-
+        FileWriter fileWriter = new FileWriter(directory);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(directory));
-
             for (Treasure current : treasures) {
                 text = text.concat(current.getName() + (int)current.getCost());
             }
@@ -84,6 +88,9 @@ public class DragonCave {
             System.out.println("Файл на найден!");
         } catch (IOException a) {
             System.out.println("Что-то ввели не так!");
+        } finally {
+            fileWriter.close();
+            bufferedWriter.close();
         }
     }
 
@@ -105,7 +112,7 @@ public class DragonCave {
             System.out.print(current.getName() + "," + current.getCost() + "\t");
             temp++;
 
-            if (temp == 10){
+            if (temp == 10) {
                 System.out.println();
                 temp = 0;
             }

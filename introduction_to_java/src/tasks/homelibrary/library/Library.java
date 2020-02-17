@@ -78,6 +78,7 @@ public class Library {
                 loadLibraryFromFile();
             }
         }
+        readerBooks.close();
     }
 
     private void loadUsersFromFile() throws IOException {
@@ -85,24 +86,29 @@ public class Library {
         System.out.println("Введите директорию файла со списком пользователей:");
         BufferedReader readerBooks = new BufferedReader(new InputStreamReader(System.in));
         String filePath = readerBooks.readLine();
+        readerBooks.close();
 
         if (filePath.equals("")) {
             System.out.println("Пустая строка!");
             loadUsersFromFile();
         } else {
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
+                FileReader fileReader = new FileReader(new File(filePath));
+                BufferedReader reader = new BufferedReader(fileReader);
                 String line = reader.readLine();
 
                 while (line != null) {
                     users.add(createUser(line));
                     line = reader.readLine();
                 }
+                reader.close();
             } catch (FileNotFoundException e) {
                 System.out.println("Указанный файл не найден!");
                 loadUsersFromFile();
             }
         }
+        fileReader.close();
+        reader.close();
     }
 
     private Book createBook(String string) {
@@ -124,6 +130,7 @@ public class Library {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите директорию файла для сохранения списка книг:");
         String filePath = reader.readLine();
+        reader.close();
 
         if (filePath.equals("")) {
             System.out.println("Пустая строка!");
@@ -144,6 +151,7 @@ public class Library {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите директорию файла для сохранения списка пользователей:");
         String filePath = reader.readLine();
+        reader.close();
 
         if (filePath.equals("")) {
             System.out.println("Пустая строка!");
@@ -242,6 +250,7 @@ public class Library {
         } else {
             initializationUser();
         }
+        reader.close();
     }
 
     private boolean checkEmail(String email) {
@@ -270,6 +279,7 @@ public class Library {
                 "Для перехода в пользовательский режим введите 3\n");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String temp = reader.readLine();
+        reader.close();
 
         if (temp.equals("")) {
             System.out.println("Введена пустая строка!");
@@ -377,5 +387,6 @@ public class Library {
                 userMenu();
             }
         }
+        reader.close();
     }
 }

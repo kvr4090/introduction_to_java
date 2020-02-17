@@ -88,6 +88,7 @@ public class Present {
                     System.out.println(text);
                 }
             }
+            reader.close();
         }
 
         public void addPacking() throws IOException {
@@ -131,6 +132,7 @@ public class Present {
                 System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
                 addPacking();
             }
+            reader.close();
         }
 
         public boolean canBeMade(){

@@ -10,11 +10,9 @@ import java.util.regex.Pattern;
 
 public class Client {
     private FileStudent fileStudent;
-    private BufferedReader reader;
-
+    
     private void run() throws IOException {
         try {
-            reader = new BufferedReader(new InputStreamReader(System.in));
             menu();
         } catch (ConnectException e) {
             System.out.println("сервер не работает!");
@@ -22,6 +20,7 @@ public class Client {
     }
 
     private void menu () throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\nДля запроса дела, введите 1.\n" +
                 "Для добавления нового дела, введите 2.\n" +
                 "Для выхода, введите 3.\n" +
@@ -90,9 +89,11 @@ public class Client {
             System.out.println("Ввели какую то дичь!");
             menu();
         }
+        reader.close();
     }
 
     private void stopServer() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Для остановки сервера, введите пароль (11 символов):");
         String pass = reader.readLine();
         Pattern pattern = Pattern.compile("[0-9]{11}");
@@ -110,9 +111,11 @@ public class Client {
             System.out.println("Неверный пароль!");
             menu();
         }
+        reader.close();
     }
 
     private void requestFileStudent() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         fileStudent = new FileStudent();
         System.out.println("Для запроса дела студента введите номер студента:");
         String number = reader.readLine();
@@ -125,6 +128,7 @@ public class Client {
             System.out.println("Введите данные соответствующие требованиям!");
             requestFileStudent();
         }
+        reader.close();
     }
 
     private void createFileStudent(String string) {
@@ -142,12 +146,15 @@ public class Client {
     }
 
     private void editFileStudentText() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Вводите требуемую информацию:");
         String text = reader.readLine();
         fileStudent.setText(text);
+        reader.close();
     }
 
     private void addFileStudent() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Вводите номер студента");
         String number = reader.readLine();
         Pattern pattern = Pattern.compile("[0-9]{1,10}");
@@ -161,6 +168,7 @@ public class Client {
             System.out.println("Введите данные соответствующие требованиям!");
             addFileStudent();
         }
+        reader.close();
     }
 
     private String clientWork(String toServer) throws IOException {

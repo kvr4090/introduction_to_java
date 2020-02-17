@@ -50,45 +50,44 @@ public class Present {
             double volume;
             String text = "Введите сладость: наименование, вес, объём. Если сладостей достаточно, введите \"готов\".";
             candies = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+                System.out.println(text);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println(text);
+                while (true) {
+                    name = reader.readLine();
 
-            while (true) {
-                name = reader.readLine();
+                    if (name.equals("готов")) {
+                        break;
+                    } else if (isText(name)) {
+                        String temp = reader.readLine();
 
-                if (name.equals("готов")) {
-                    break;
-                } else if (isText(name)) {
-                    String temp = reader.readLine();
+                        if (isTrueNumber(temp)) {
+                            weight = Double.parseDouble(temp);
+                        } else {
+                            System.out.println("Неверный вес!");
+                            System.out.println(text);
+                            continue;
+                        }
 
-                    if (isTrueNumber(temp)) {
-                        weight = Double.parseDouble(temp);
+                        temp = reader.readLine();
+
+                        if (isTrueNumber(temp)) {
+                            volume = Double.parseDouble(temp);
+
+                        } else {
+                            System.out.println("Неверный объём!");
+                            System.out.println(text);
+                            continue;
+                        }
+
+                        candies.add(new Candy(name, weight, volume));
+                        System.out.println("Сладость добавлена.\n"+ text);
                     } else {
-                        System.out.println("Неверный вес!");
+                        System.out.println("Ошибка в переданных параметрах. Сладость не добавлена в подарок.");
                         System.out.println(text);
-                        continue;
                     }
-
-                    temp = reader.readLine();
-
-                    if (isTrueNumber(temp)) {
-                        volume = Double.parseDouble(temp);
-
-                    } else {
-                        System.out.println("Неверный объём!");
-                        System.out.println(text);
-                        continue;
-                    }
-
-                    candies.add(new Candy(name, weight, volume));
-                    System.out.println("Сладость добавлена.\n"+ text);
-                } else {
-                    System.out.println("Ошибка в переданных параметрах. Сладость не добавлена в подарок.");
-                    System.out.println(text);
-                }
+                }       
             }
-            reader.close();
         }
 
         public void addPacking() throws IOException {
@@ -98,41 +97,40 @@ public class Present {
             String temp;
             double weight = 0;
             double volume = 0;
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Введите данные об упаковке: цвет, тип, материал, максимальный вес и объём.");
 
-            color = reader.readLine();
-            type = reader.readLine();
-            material = reader.readLine();
-            temp = reader.readLine();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+                color = reader.readLine();
+                type = reader.readLine();
+                material = reader.readLine();
+                temp = reader.readLine();
 
-            if (isTrueNumber(temp)) {
-                weight = Double.parseDouble(temp);
+                if (isTrueNumber(temp)) {
+                    weight = Double.parseDouble(temp);
 
-            } else {
-                System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
-                addPacking();
+                } else {
+                    System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
+                    addPacking();
+                }
+
+                temp = reader.readLine();
+
+                if (isTrueNumber(temp)) {
+                    volume = Double.parseDouble(temp);
+
+                } else {
+                    System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
+                    addPacking();
+                }
+
+                if (isText(color) && isText(type) && isText(material)) {
+                    packing = new Packing(color, type, material, weight, volume);
+
+                } else {
+                    System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
+                    addPacking();
+                }   
             }
-
-            temp = reader.readLine();
-
-            if (isTrueNumber(temp)) {
-                volume = Double.parseDouble(temp);
-
-            } else {
-                System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
-                addPacking();
-            }
-
-            if (isText(color) && isText(type) && isText(material)) {
-                packing = new Packing(color, type, material, weight, volume);
-
-            } else {
-                System.out.println("Ошибка в переданных параметрах. Упаковка не принята.");
-                addPacking();
-            }
-            reader.close();
         }
 
         public boolean canBeMade(){

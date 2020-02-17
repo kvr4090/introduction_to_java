@@ -22,49 +22,50 @@ public class Treasure {
     }
 
     private String addTreasureName() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Введите наименование сокровища: ");
-        String  name = reader.readLine();
-        reader.close();
 
-        if (name.equals("")) {
-            System.out.println("Введена пустая строка!");
-            addTreasureName();
-        } else {
-            Pattern patternName = Pattern.compile("[^А-я\\s]");
-            Matcher matcher = patternName.matcher(name);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String  name = reader.readLine();
 
-            if (!matcher.find()) {
-                return name;
-            } else {
-                System.out.println("Имя содержит недопустимые символы!");
+            if (name.equals("")) {
+                System.out.println("Введена пустая строка!");
                 addTreasureName();
+            } else {
+                Pattern patternName = Pattern.compile("[^А-я\\s]");
+                Matcher matcher = patternName.matcher(name);
+
+                if (!matcher.find()) {
+                    return name;
+                } else {
+                    System.out.println("Имя содержит недопустимые символы!");
+                    addTreasureName();
+                }
             }
+            return name;
         }
-        return name;
     }
 
     private int addTreasurePrice() throws IOException {
         System.out.print("Введите стоимость сокровища: ");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String temp = reader.readLine();
-        reader.close();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String temp = reader.readLine();
 
-        if (temp.equals("")) {
-            System.out.println("Введена пустая строка!");
-            addTreasurePrice();
-        } else {
-            Pattern patternCost = Pattern.compile("[0-9]");
-            Matcher matcher = patternCost.matcher(temp);
-
-            if (matcher.find()) {
-                return Integer.parseInt(temp);
-            } else {
-                System.out.println("Стоимость содержит недопустимые символы!");
+            if (temp.equals("")) {
+                System.out.println("Введена пустая строка!");
                 addTreasurePrice();
+            } else {
+                Pattern patternCost = Pattern.compile("[0-9]");
+                Matcher matcher = patternCost.matcher(temp);
+
+                if (matcher.find()) {
+                    return Integer.parseInt(temp);
+                } else {
+                    System.out.println("Стоимость содержит недопустимые символы!");
+                    addTreasurePrice();
+                }
             }
+            return 0;
         }
-        return 0;
     }
 
     public String getName() {

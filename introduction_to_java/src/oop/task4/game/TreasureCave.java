@@ -30,8 +30,8 @@ public class TreasureCave {
         DragonCave dragonCave;
         System.out.println("Заполните пещеру сокровищами. Для заполнения вручную введите 1\n" +
                 "Для загрузки готовой пещеры из файла, введите 2 и введите директорию файла.");
-        BufferedReader gameReader = new BufferedReader(new InputStreamReader(System.in));
-        String choice = gameReader.readLine();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String choice = reader.readLine();
 
         if (choice.equals("")) {
             System.out.println("Введена пустая строка!");
@@ -50,7 +50,7 @@ public class TreasureCave {
                 }
 
                 if (temp == 2) {
-                    dragonCave = new DragonCave(gameReader.readLine());
+                    dragonCave = new DragonCave(reader.readLine());
                     setGameList(dragonCave.getTreasures());
                     valueMenu(dragonCave);
                 }
@@ -59,6 +59,7 @@ public class TreasureCave {
                 run();
             }
         }
+        reader.close();
     }
 
     private void valueMenu(DragonCave dragonCave) throws IOException {
@@ -126,6 +127,7 @@ public class TreasureCave {
         if (value == 5) {
             System.out.println("До свидания!");
         }
+        reader.close();
     }
 
     private int sumTreasures() {
@@ -191,6 +193,7 @@ public class TreasureCave {
                 }
             }
         }
+        reader.close();
     }
 
     private boolean isContains(int i) {

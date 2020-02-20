@@ -1,7 +1,5 @@
 package tasks.harbour;
 
-import java.util.concurrent.Semaphore;
-
 /*
  * Задание 4. Многопоточность. Порт . Корабли заходят в порт для
  * разгрузки/загрузки контейнеров. Число контейнеров, находящихся в текущий момент
@@ -12,17 +10,29 @@ import java.util.concurrent.Semaphore;
  */
 
 public class Port {
-    Storage storage = new Storage();
-    Semaphore semaphore = new Semaphore(3);
+    static int capacity = 0;
+    static int balance = 0;
+    static int maxCapacity = 23;
+    static int countLoop;
 
-    public void work() throws InterruptedException {
-        while (true) {
-            Thread.sleep(300);
-            new Dock("Причал 1", semaphore, storage).start();
-            Thread.sleep(300);
-            new Dock("Причал 2", semaphore, storage).start();
-            Thread.sleep(300);
-            new Dock("Причал 3", semaphore, storage).start();
-        }
+    public void work(int a) throws InterruptedException {
+        countLoop = a;
+
+        Dock dock1 = new Dock("Причал 1" );
+        Dock dock2 = new Dock("Причал 2" );
+        Dock dock3 = new Dock("Причал 3");
+
+        Thread thread1 = new Thread(dock1);
+        Thread thread2 = new Thread(dock2);
+        Thread thread3 = new Thread(dock3);
+
+        thread1.start();
+        Thread.sleep(30);
+
+        thread2.start();
+        Thread.sleep(30);
+
+        thread3.start();
+        Thread.sleep(30);
     }
 }

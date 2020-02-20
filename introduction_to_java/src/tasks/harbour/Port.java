@@ -10,8 +10,8 @@ package tasks.harbour;
  */
 
 public class Port {
-    static int capacity = 0;
-    static int balance = 0;
+    static AtomicInteger capacity = new AtomicInteger(0);
+    static AtomicInteger balance = new AtomicInteger(0);
     static int maxCapacity = 23;
     static int countLoop;
 

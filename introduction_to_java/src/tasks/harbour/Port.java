@@ -29,12 +29,7 @@ public class Port {
         Thread thread3 = new Thread(dock3);
 
         thread1.start();
-        Thread.sleep(30);
-
         thread2.start();
-        Thread.sleep(30);
-
         thread3.start();
-        Thread.sleep(30);
     }
 }

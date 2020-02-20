@@ -1,48 +1,60 @@
 package tasks.harbour;
 
-import java.util.concurrent.Semaphore;
+public class Dock implements Runnable {
+    private String dockName;
 
-public class Dock extends Thread {
-    Storage as;
-    String dockName;
-    Semaphore sem;
-    boolean full = false;
-
-    public Dock(String dockName, Semaphore sem, Storage as) {
+    public Dock(String dockName) {
         this.dockName = dockName;
-        this.sem = sem;
-        this.as = as;
     }
 
     @Override
     public void run() {
+
+        for (int i = 0; i < Port.countLoop; i++) {
+            work();
+        }
+    }
+
+    private void work () {
+        System.out.println("\nНа причал " + dockName + " прибыл корабль. Количество контейнеров на складе " +
+                Port.capacity + "/" + Port.maxCapacity);
+        
         try {
-            if (!full) {
-                sem.acquire();
-                System.out.println("\nНа причал " + dockName + " прибыл корабль. Количество контейнеров на складе " + as.capacity + "/" + as.maxCapacity);
-
-                if ((as.capacity + 3) <= as.maxCapacity) {
-                    System.out.println("Началась выгрузка корабля в " + dockName);
-
-                    for (int i = 0; i < 3; i++) {
-                        as.capacity++;
-                    }
-                    full = true;
-                    System.out.println("Закончилась выгрузка корабля " + dockName + " Количество контейнеров на складе " + as.capacity + "/" + as.maxCapacity);
-                } else {
-                    System.out.println("Началась загрузка корабля в " + dockName);
-
-                    for (int i = 0; i < 3; i++) {
-                        as.capacity--;
-                    }
-                    full = true;
-                    System.out.println("Закончилась загрузка корабля " + dockName + " Количество контейнеров на складе " + as.capacity + "/" + as.maxCapacity);
-                }
-                sleep(300);
-                sem.release();
+            if ((Port.balance + 3) <= Port.maxCapacity) {
+                unloadingShip();
+            } else {
+                loadingShip();
             }
         } catch (InterruptedException e) {
-            System.out.println ("Что-то пошло не так!");
+            e.printStackTrace();
         }
+    }
+
+    private void unloadingShip() throws InterruptedException {
+        System.out.println("Началась выгрузка корабля в " + dockName);
+        Port.balance += 3;
+
+        for (int i = 0; i < 3; i++) {
+            Port.capacity++;
+            System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
+            Thread.sleep(500);
+        }
+        System.out.println("Закончилась выгрузка корабля " + dockName + " Количество контейнеров на складе " +
+                Port.capacity + "/" + Port.maxCapacity + "\nКорабль уплывает.");
+        Thread.sleep(300);
+    }
+
+    private void loadingShip() throws InterruptedException {
+        System.out.println("Началась загрузка корабля в " + dockName);
+        Port.balance -= 3;
+
+        for (int i = 0; i < 3; i++) {
+            Port.capacity--;
+            System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
+            Thread.sleep(500);
+        }
+        System.out.println("Закончилась загрузка корабля " + dockName + " Количество контейнеров на складе " +
+                Port.capacity + "/" + Port.maxCapacity + "\nКорабль уплывает.");
+        Thread.sleep(300);
     }
 }

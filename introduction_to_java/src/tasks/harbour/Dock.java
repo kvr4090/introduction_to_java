@@ -36,7 +36,7 @@ public class Dock implements Runnable {
 
         for (int i = 0; i < 3; i++) {
             Port.capacity.incrementAndGet();
-            System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
+            //System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
             Thread.sleep(500);
         }
         System.out.println("Закончилась выгрузка корабля " + dockName + " Количество контейнеров на складе " +
@@ -50,7 +50,7 @@ public class Dock implements Runnable {
 
         for (int i = 0; i < 3; i++) {
             Port.capacity.decrementAndGet();
-            System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
+            //System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
             Thread.sleep(500);
         }
         System.out.println("Закончилась загрузка корабля " + dockName + " Количество контейнеров на складе " +

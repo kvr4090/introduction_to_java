@@ -18,9 +18,9 @@ public class Dock implements Runnable {
     private void work () {
         System.out.println("\nНа причал " + dockName + " прибыл корабль. Количество контейнеров на складе " +
                 Port.capacity + "/" + Port.maxCapacity);
-        
+
         try {
-            if ((Port.balance + 3) <= Port.maxCapacity) {
+            if ((Port.balance.get() + 3) <= Port.maxCapacity) {
                 unloadingShip();
             } else {
                 loadingShip();
@@ -30,12 +30,12 @@ public class Dock implements Runnable {
         }
     }
 
-    private void unloadingShip() throws InterruptedException {
+    private synchronized void unloadingShip() throws InterruptedException {
         System.out.println("Началась выгрузка корабля в " + dockName);
-        Port.balance += 3;
+        Port.balance.addAndGet(3);
 
         for (int i = 0; i < 3; i++) {
-            Port.capacity++;
+            Port.capacity.incrementAndGet();
             System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
             Thread.sleep(500);
         }
@@ -46,10 +46,10 @@ public class Dock implements Runnable {
 
     private void loadingShip() throws InterruptedException {
         System.out.println("Началась загрузка корабля в " + dockName);
-        Port.balance -= 3;
+        Port.balance.addAndGet(-3);
 
         for (int i = 0; i < 3; i++) {
-            Port.capacity--;
+            Port.capacity.decrementAndGet();
             System.out.println("Склад: " + Port.capacity + "/" + Port.maxCapacity);
             Thread.sleep(500);
         }

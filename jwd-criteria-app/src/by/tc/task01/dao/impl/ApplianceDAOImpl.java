@@ -59,6 +59,17 @@ public class ApplianceDAOImpl implements ApplianceDAO{
 		Pattern pattern = Pattern.compile("[=:,]");
 		return pattern.split(string);
 	}
+	
+	private boolean isCondition(Criteria criteria, String[] props) {
+		for (Map.Entry<String, Object> current : criteria.getCriteria().entrySet()) {
+			for (int i = 1; i <props.length - 1; i += 2) {
+				if (current.getKey().equals(props[i]) && current.getValue().equals(props[i + 1])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 }
 

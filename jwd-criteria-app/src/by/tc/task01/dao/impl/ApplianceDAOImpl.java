@@ -25,27 +25,27 @@ public class ApplianceDAOImpl implements ApplianceDAO{
 
 		while (line != null) {
 
-			if (splitPropertiesDevice(line)[0].trim().equals("Laptop")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("Laptop") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new Laptop(splitPropertiesDevice(line)));
 			}
 
-			if (splitPropertiesDevice(line)[0].trim().equals("Oven")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("Oven") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new Oven(splitPropertiesDevice(line)));
 			}
 
-			if (splitPropertiesDevice(line)[0].trim().equals("Refrigerator")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("Refrigerator") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new Refrigerator(splitPropertiesDevice(line)));
 			}
 
-			if (splitPropertiesDevice(line)[0].trim().equals("Speakers")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("Speakers") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new Speakers(splitPropertiesDevice(line)));
 			}
 
-			if (splitPropertiesDevice(line)[0].trim().equals("TabletPC")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("TabletPC") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new TabletPC(splitPropertiesDevice(line)));
 			}
 
-			if (splitPropertiesDevice(line)[0].trim().equals("VacuumCleaner")) {
+			if (splitPropertiesDevice(line)[0].trim().equals("VacuumCleaner") && !isCondition(criteria, splitPropertiesDevice(line))) {
 				result.add(new VacuumCleaner(splitPropertiesDevice(line)));
 			}
 

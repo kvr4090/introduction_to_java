@@ -3,7 +3,6 @@ package by.tc.task01.main;
 import by.tc.task01.entity.*;
 
 import java.util.List;
-import java.util.Map;
 
 public class PrintApplianceInfo {
 	

@@ -1,5 +1,6 @@
 package by.tc.task01.entity;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Oven implements Appliance {

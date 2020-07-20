@@ -1,6 +1,5 @@
 package by.tc.task01.entity;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class Laptop implements Appliance {
